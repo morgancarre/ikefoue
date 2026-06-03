@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <ref rel="stylesheet" href="style.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <h1>Catalogue articles</h1>
 
+  <table id="catalogue">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>État</th>
+        <th>Prix unitaire</th>
+        <th>Quantité dispo</th>
+        <th>Qté souhaitée</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-    <script src="script.js"></script>
-    
+  <h2>Ma commande</h2>
+  <table id="commande">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>État</th>
+        <th>Qté</th>
+        <th>Prix unitaire</th>
+        <th>Sous-total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="total-section" style="display:none">
+    <button id="btn-valider">Valider la commande</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,70 @@
+const articles = [
+  { nom: "Vélo de route", etat: "Neuf",       prix: 450, stock: 3 },
+  { nom: "Casque",        etat: "Bon état",    prix: 35,  stock: 10 },
+  { nom: "Sacoche",       etat: "Usagé",       prix: 12,  stock: 5 },
+  { nom: "Pompe à air",   etat: "Neuf",        prix: 25,  stock: 7 },
+];
+
+const commande = [];
+
+function renderCatalogue() {
+  const tbody = document.querySelector("#catalogue tbody");
+  tbody.innerHTML = "";
+  articles.forEach((a, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${a.nom}</td>
+      <td>${a.etat}</td>
+      <td>${a.prix} €</td>
+      <td>${a.stock}</td>
+      <td><input type="number" min="1" max="${a.stock}" value="1" id="qty-${i}" style="width:60px"></td>
+      <td><button onclick="ajouterCommande(${i})">Ajouter</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function ajouterCommande(i) {
+  const qty = parseInt(document.getElementById(`qty-${i}`).value);
+  const a = articles[i];
+  if (!qty || qty < 1 || qty > a.stock) return alert("Quantité invalide");
+
+  const existant = commande.find(l => l.nom === a.nom && l.etat === a.etat);
+  if (existant) {
+    existant.qte += qty;
+  } else {
+    commande.push({ nom: a.nom, etat: a.etat, prix: a.prix, qte: qty });
+  }
+  renderCommande();
+}
+
+function supprimerLigne(index) {
+  commande.splice(index, 1);
+  renderCommande();
+}
+
+function renderCommande() {
+  const tbody = document.querySelector("#commande tbody");
+  tbody.innerHTML = "";
+  commande.forEach((l, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${l.nom}</td>
+      <td>${l.etat}</td>
+      <td>${l.qte}</td>
+      <td>${l.prix} €</td>
+      <td>${(l.prix * l.qte).toFixed(2)} €</td>
+      <td><button onclick="supprimerLigne(${i})">Retirer</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("total-section").style.display = commande.length ? "block" : "none";
+}
+
+document.getElementById("btn-valider").addEventListener("click", () => {
+  if (!commande.length) return;
+  alert("Commande enregistrée !\n" + commande.map(l => `${l.nom} x${l.qte}`).join("\n"));
+});
+
+renderCatalogue();
