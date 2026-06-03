@@ -13,6 +13,14 @@ const remises = {
   15000: 1.25,
 };
 
+const taxes = {
+  ny: 0.055,
+  ut: 0.051,
+  ca: 0.083,
+  tx: 0.066,
+  nv: 0.0251,
+}
+
 const commande = [];
 
 function renderCatalogue() {
@@ -54,6 +62,12 @@ function renderCommande() {
   const tbody = document.querySelector("#commande tbody");
   tbody.innerHTML = "";
   commande.forEach((l, i) => {
+    
+    let ttc = l.prix * l.qte * (1 + taxes[document.getElementById("state-select").value.toLowerCase()]);
+    if (remises[l.qte]) {
+      ttc *= (1 - remises[l.qte]);
+    }
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${l.nom}</td>
@@ -61,6 +75,7 @@ function renderCommande() {
       <td>${l.qte}</td>
       <td>${l.prix} €</td>
       <td>${(l.prix * l.qte).toFixed(2)} €</td>
+      <td>${ttc} €</td>
       <td><button onclick="supprimerLigne(${i})">Retirer</button></td>
     `;
     tbody.appendChild(tr);
