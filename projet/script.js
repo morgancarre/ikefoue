@@ -89,4 +89,22 @@ document.getElementById("btn-valider").addEventListener("click", () => {
   alert("Commande validé !\n" + commande.map(l => `${l.nom} x${l.qte}`).join("\n"));
 });
 
+function sortByPrice() {
+  articles.sort((a, b) => a.prix - b.prix);
+  renderCatalogue();
+}
+
+function sortByName() {
+  articles.sort((a, b) => a.nom.localeCompare(b.nom));
+  renderCatalogue();
+}
+
+function sortByQuantity() {
+    articles.sort((a, b) => a.stock - b.stock);
+    renderCatalogue();
+}
 renderCatalogue();
+
+document.getElementById("sort-price").addEventListener("click", sortByPrice);
+document.getElementById("sort-name").addEventListener("click", sortByName);
+document.getElementById("sort-quantity").addEventListener("click", sortByQuantity);
