@@ -22,7 +22,6 @@ function renderCatalogue() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${a.nom}</td>
-      <td>${a.etat}</td>
       <td>${a.prix} €</td>
       <td>${a.stock}</td>
       <td><input type="number" min="1" max="${a.stock}" value="1" id="qty-${i}" style="width:60px"></td>
