@@ -4,81 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boutique</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div style="background: #f4f4f4; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+  <div class="card admin-card">
     <div id="login-section">
       <h3>Accès Administrateur</h3>
-      <input type="password" id="admin-password" placeholder="Mot de passe">
-      <button id="btn-login">Se connecter</button>
+      <div class="form-group">
+        <input type="password" id="admin-password" placeholder="Mot de passe">
+        <button id="btn-login" class="btn-primary">Se connecter</button>
+      </div>
     </div>
 
     <div id="admin-section" style="display:none;">
       <h3>Ajouter un nouveau produit</h3>
-      <input type="text" id="new-nom" placeholder="Nom du produit">
-      <select id="new-etat">
-        <option value="NY">NY</option>
-        <option value="UT">UT</option>
-        <option value="CA">CA</option>
-        <option value="TX">TX</option>
-        <option value="NV">NV</option>
-      </select>
-      <input type="number" id="new-prix" placeholder="Prix unitaire" min="0">
-      <input type="number" id="new-stock" placeholder="Stock initial" min="1">
-      <button id="btn-add-product">Ajouter le produit</button>
+      <div class="form-group">
+        <input type="text" id="new-nom" placeholder="Nom du produit">
+        <select id="new-etat">
+          <option value="NY">NY</option>
+          <option value="UT">UT</option>
+          <option value="CA">CA</option>
+          <option value="TX">TX</option>
+          <option value="NV">NV</option>
+        </select>
+        <input type="number" id="new-prix" placeholder="Prix unitaire" min="0">
+        <input type="number" id="new-stock" placeholder="Stock initial" min="1">
+        <button id="btn-add-product" class="btn-primary">Ajouter le produit</button>
+      </div>
     </div>
   </div>
 
-  <h1>Catalogue articles</h1>
+  <div class="card">
+    <h1>Catalogue articles</h1>
+    
+    <div class="actions-bar">
+      <button id="sort-name">Trier par nom</button>
+      <button id="sort-price">Trier par prix</button>
+      <button id="sort-quantity">Trier par stock</button>
+    </div>
 
-  <button id="sort-name">Trier par nom</button>
-  <button id="sort-price">Trier par prix</button>
-  <button id="sort-quantity">Trier par stock</button>
+    <table id="catalogue">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th id="price-header">Prix unitaire</th>
+          <th>Quantité dispo</th>
+          <th>Qté souhaitée</th>
+          <th>Action</th>
+          <th id="admin-col" style="display:none;">Admin</th> 
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-  <table id="catalogue" border="1" style="margin-top: 15px; border-collapse: collapse; text-align: center;">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th id="price-header">Prix unitaire</th>
-        <th>Quantité dispo</th>
-        <th>Qté souhaitée</th>
-        <th>Action</th>
-        <th id="admin-col" style="display:none;">Admin</th> 
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <div class="card">
+    <div class="delivery-section">
+      <label for="state-select"><strong>Sélectionnez votre pays de livraison :</strong></label>
+      <select name="states" id="state-select">
+        <option value="">-- Veuillez choisir une option --</option>
+        <option value="ny">NY</option>
+        <option value="ut">UT</option>
+        <option value="ca">CA</option>
+        <option value="tx">TX</option>
+        <option value="nv">NV</option>
+      </select>
+    </div>
 
-  <br>
-  <label for="state-select">Selectionnez votre pays de livraison:</label>
-  <select name="states" id="state-select">
-    <option value="">--Veuillez choisir une option--</option>
-    <option value="ny">NY</option>
-    <option value="ut">UT</option>
-    <option value="ca">CA</option>
-    <option value="tx">TX</option>
-    <option value="nv">NV</option>
-  </select>
+    <h2>Ma commande</h2>
+    <table id="commande">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>État</th>
+          <th>Qté</th>
+          <th>Prix unitaire</th>
+          <th>Total (HT)</th>
+          <th>Total (TTC)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-  <h2>Ma commande</h2>
-  <table id="commande" border="1" style="border-collapse: collapse; text-align: center;">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>État</th>
-        <th>Qté</th>
-        <th>Prix unitaire</th>
-        <th>Total (HT)</th>
-        <th>Total (TTC)</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div id="total-section" style="display:none; margin-top: 10px;">
-    <button id="btn-valider">Valider la commande</button>
+    <div id="total-section" style="display:none; margin-top: 20px; text-align: right;">
+      <button id="btn-valider" class="btn-success">Valider la commande</button>
+    </div>
   </div>
 
   <script src="script.js"></script>
