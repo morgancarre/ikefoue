@@ -19,21 +19,78 @@ const taxes = {
   ca: 0.083,
   tx: 0.066,
   nv: 0.0251,
-}
+};
 
 const commande = [];
 
+// --- NOUVEAU : SYSTÈME D'AUTHENTIFICATION ---
+let isAdmin = false;
+const MOT_DE_PASSE = "admin123";
+
+document.getElementById("btn-login").addEventListener("click", () => {
+  const pwd = document.getElementById("admin-password").value;
+  if (pwd === MOT_DE_PASSE) {
+    isAdmin = true;
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("admin-section").style.display = "block";
+    document.getElementById("admin-col").style.display = "table-cell"; // Affiche l'entête "Admin"
+    renderCatalogue();
+    alert("Connecté en tant qu'administrateur.");
+  } else {
+    alert("Mot de passe incorrect.");
+  }
+});
+
+// --- NOUVEAU : AJOUTER UN PRODUIT ---
+document.getElementById("btn-add-product").addEventListener("click", () => {
+  if (!isAdmin) return; // Sécurité
+
+  const nom = document.getElementById("new-nom").value;
+  const etat = document.getElementById("new-etat").value;
+  const prix = parseFloat(document.getElementById("new-prix").value);
+  const stock = parseInt(document.getElementById("new-stock").value);
+
+  if (!nom || !etat || isNaN(prix) || isNaN(stock)) {
+    return alert("Veuillez remplir tous les champs du produit.");
+  }
+
+  articles.push({ nom, etat, prix, stock });
+  renderCatalogue();
+  
+  // Vider les champs après ajout
+  document.getElementById("new-nom").value = "";
+  document.getElementById("new-prix").value = "";
+  document.getElementById("new-stock").value = "";
+});
+
+// --- NOUVEAU : SUPPRIMER UN PRODUIT ---
+function supprimerProduit(index) {
+  if (!isAdmin) return; // Sécurité pour empêcher le déclenchement via la console
+  if(confirm("Êtes-vous sûr de vouloir supprimer cet article du catalogue ?")) {
+    articles.splice(index, 1);
+    renderCatalogue();
+  }
+}
+
+// --- RENDU CATALOGUE MODIFIÉ ---
 function renderCatalogue() {
   const tbody = document.querySelector("#catalogue tbody");
   tbody.innerHTML = "";
   articles.forEach((a, i) => {
     const tr = document.createElement("tr");
+    
+    // Si l'utilisateur est admin, on génère le bouton de suppression
+    const btnSupprimer = isAdmin 
+      ? `<td><button onclick="supprimerProduit(${i})" style="color: red;">Supprimer</button></td>` 
+      : ``;
+
     tr.innerHTML = `
       <td>${a.nom}</td>
       <td>${a.prix} €</td>
       <td>${a.stock}</td>
       <td><input type="number" min="1" max="${a.stock}" value="1" id="qty-${i}" style="width:60px"></td>
       <td><button onclick="ajouterCommande(${i})">Ajouter</button></td>
+      ${btnSupprimer}
     `;
     tbody.appendChild(tr);
   });
@@ -61,9 +118,13 @@ function supprimerLigne(index) {
 function renderCommande() {
   const tbody = document.querySelector("#commande tbody");
   tbody.innerHTML = "";
+  
+  const stateVal = document.getElementById("state-select").value.toLowerCase();
+  const currentTax = taxes[stateVal] || 0;
+
   commande.forEach((l, i) => {
+    let ttc = l.prix * l.qte * (1 + currentTax); // Corrigé : 'let' + gestion taxe vide
     
-    let ttc = l.prix * l.qte * (1 + taxes[document.getElementById("state-select").value.toLowerCase()]);
     if (remises[l.qte]) {
       ttc *= (1 - remises[l.qte]);
     }
@@ -86,8 +147,11 @@ function renderCommande() {
 
 document.getElementById("btn-valider").addEventListener("click", () => {
   if (!commande.length) return;
-  alert("Commande validé !\n" + commande.map(l => `${l.nom} x${l.qte}`).join("\n"));
+  alert("Commande validée !\n" + commande.map(l => `${l.nom} x${l.qte}`).join("\n"));
 });
+
+// Le select déclenche le recalcule si on change l'état en plein milieu
+document.getElementById("state-select").addEventListener("change", renderCommande);
 
 function sortByPrice() {
   articles.sort((a, b) => a.prix - b.prix);
@@ -103,6 +167,7 @@ function sortByQuantity() {
     articles.sort((a, b) => a.stock - b.stock);
     renderCatalogue();
 }
+
 renderCatalogue();
 
 document.getElementById("sort-price").addEventListener("click", sortByPrice);
