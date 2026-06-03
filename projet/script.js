@@ -72,7 +72,7 @@ function renderCommande() {
 
 document.getElementById("btn-valider").addEventListener("click", () => {
   if (!commande.length) return;
-  alert("Commande enregistrée !\n" + commande.map(l => `${l.nom} x${l.qte}`).join("\n"));
+  alert("Commande validé !\n" + commande.map(l => `${l.nom} x${l.qte}`).join("\n"));
 });
 
 renderCatalogue();
