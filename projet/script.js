@@ -1,8 +1,8 @@
 const articles = [
-  { nom: "Vélo de route", etat: "Neuf",       prix: 450, stock: 3 },
-  { nom: "Casque",        etat: "Bon état",    prix: 35,  stock: 10 },
-  { nom: "Sacoche",       etat: "Usagé",       prix: 12,  stock: 5 },
-  { nom: "Pompe à air",   etat: "Neuf",        prix: 25,  stock: 7 },
+  { nom: "Vélo de route", etat: "NY",       prix: 450, stock: 3 },
+  { nom: "Casque",        etat: "UT",    prix: 35,  stock: 10 },
+  { nom: "Sacoche",       etat: "CA",       prix: 12,  stock: 5 },
+  { nom: "Pompe à air",   etat: "NV",        prix: 25,  stock: 7 },
 ];
 
 const commande = [];
