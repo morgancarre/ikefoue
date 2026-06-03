@@ -75,7 +75,7 @@ function renderCommande() {
       <td>${l.qte}</td>
       <td>${l.prix} €</td>
       <td>${(l.prix * l.qte).toFixed(2)} €</td>
-      <td>${ttc} €</td>
+      <td>${ttc.toFixed(2)} €</td>
       <td><button onclick="supprimerLigne(${i})">Retirer</button></td>
     `;
     tbody.appendChild(tr);
