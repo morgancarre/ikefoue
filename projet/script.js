@@ -5,6 +5,14 @@ const articles = [
   { nom: "Pompe à air",   etat: "NV",        prix: 25,  stock: 7 },
 ];
 
+const remises = {
+  100: 0.05,
+  1000: 0.1,
+  5000: 0.15,
+  10000: 0.2,
+  15000: 1.25,
+};
+
 const commande = [];
 
 function renderCatalogue() {
